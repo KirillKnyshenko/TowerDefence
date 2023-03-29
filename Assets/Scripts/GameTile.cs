@@ -18,6 +18,23 @@ public class GameTile : MonoBehaviour
     private Quaternion _southRotation = Quaternion.Euler(90f, 180f, 0f);
     private Quaternion _westRotation = Quaternion.Euler(90f, 270f, 0f);
 
+    private GameTileContent _content;
+
+    public GameTileContent Content
+    {
+        get => _content;
+        set
+        {
+            if (_content != null)
+            {
+                _content.Recycle();
+            }
+
+            _content = value;
+            _content.transform.localPosition = transform.localPosition;
+        }
+    }
+
     public static void MakeEastWestNeighbors(GameTile east, GameTile west) {
         // Static method 
 
@@ -67,7 +84,7 @@ public class GameTile : MonoBehaviour
         neighbor._distance = _distance + 1;
         neighbor._nextOnPath = this;
 
-        return neighbor;
+        return neighbor.Content.Type != GameTileContentType.Wall ? neighbor : null;
     }
 
     // Do grow path by neighbor's relative position
