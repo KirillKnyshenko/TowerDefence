@@ -11,5 +11,4 @@ public class Game : MonoBehaviour
     private void Start() {
         _gameBoard.Initialize(_boardSize);
     }
-
 }
